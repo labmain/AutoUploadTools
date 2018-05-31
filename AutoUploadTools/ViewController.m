@@ -10,12 +10,26 @@
 
 @implementation ViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    // Do any additional setup after loading the view.
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    //注册通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appConfigNotification) name:@"AppConfigNotification" object:nil];
+    
+}
+
+- (void)setAppInfo
+{
+    
+}
+- (void)appConfigNotification
+{
+    [self setAppInfo];
+}
 
 - (void)setRepresentedObject:(id)representedObject {
     [super setRepresentedObject:representedObject];
