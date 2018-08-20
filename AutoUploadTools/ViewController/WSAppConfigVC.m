@@ -73,6 +73,7 @@
     NSString *schemes = self.schemesTextField.stringValue;
     configurationModel.schemes = schemes;
     configurationModel.appName = self.appNameTextField.stringValue;
+    configurationModel.projectName = self.appNameTextField.stringValue;
     
     [WSConfigManager sharedConfigManager].appConfig = configurationModel;
     [[WSConfigManager sharedConfigManager] saveUserData];

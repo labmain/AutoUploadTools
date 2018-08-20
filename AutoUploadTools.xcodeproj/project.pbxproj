@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		241543F1212A690D008390CD /* buildinfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 241543F0212A690D008390CD /* buildinfo.plist */; };
+		2466DA0020CFC67700378F50 /* WSBuildShellFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2466D9FF20CFC67700378F50 /* WSBuildShellFileManager.m */; };
+		2466DA0320CFC89500378F50 /* WSFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2466DA0220CFC89500378F50 /* WSFileManager.m */; };
+		2466DA0B20CFC98D00378F50 /* NSDate+DateString.m in Sources */ = {isa = PBXBuildFile; fileRef = 2466DA0A20CFC98D00378F50 /* NSDate+DateString.m */; };
+		2466DA0E20CFCB6A00378F50 /* WSNetWorkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2466DA0D20CFCB6A00378F50 /* WSNetWorkManager.m */; };
 		247CDA7220BFFE7A0055DE5C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 247CDA7120BFFE7A0055DE5C /* AppDelegate.m */; };
 		247CDA7520BFFE7A0055DE5C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 247CDA7420BFFE7A0055DE5C /* ViewController.m */; };
 		247CDA7720BFFE7C0055DE5C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 247CDA7620BFFE7C0055DE5C /* Assets.xcassets */; };
@@ -36,6 +41,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		241543F0212A690D008390CD /* buildinfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = buildinfo.plist; sourceTree = "<group>"; };
+		2466D9FE20CFC67700378F50 /* WSBuildShellFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WSBuildShellFileManager.h; sourceTree = "<group>"; };
+		2466D9FF20CFC67700378F50 /* WSBuildShellFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WSBuildShellFileManager.m; sourceTree = "<group>"; };
+		2466DA0120CFC89500378F50 /* WSFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WSFileManager.h; sourceTree = "<group>"; };
+		2466DA0220CFC89500378F50 /* WSFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WSFileManager.m; sourceTree = "<group>"; };
+		2466DA0620CFC96D00378F50 /* NSDate+Utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+Utilities.h"; sourceTree = "<group>"; };
+		2466DA0720CFC96D00378F50 /* NSDate+Utilities.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Utilities.m"; sourceTree = "<group>"; };
+		2466DA0920CFC98D00378F50 /* NSDate+DateString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+DateString.h"; sourceTree = "<group>"; };
+		2466DA0A20CFC98D00378F50 /* NSDate+DateString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+DateString.m"; sourceTree = "<group>"; };
+		2466DA0C20CFCB6A00378F50 /* WSNetWorkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WSNetWorkManager.h; sourceTree = "<group>"; };
+		2466DA0D20CFCB6A00378F50 /* WSNetWorkManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WSNetWorkManager.m; sourceTree = "<group>"; };
 		247CDA6D20BFFE7A0055DE5C /* AutoUploadTools.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AutoUploadTools.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		247CDA7020BFFE7A0055DE5C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		247CDA7120BFFE7A0055DE5C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -102,6 +118,54 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2466D9FB20CFC64F00378F50 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				247CDA8720C000D10055DE5C /* WSConfigManager.h */,
+				247CDA8820C000D10055DE5C /* WSConfigManager.m */,
+				2466D9FE20CFC67700378F50 /* WSBuildShellFileManager.h */,
+				2466D9FF20CFC67700378F50 /* WSBuildShellFileManager.m */,
+				2466DA0120CFC89500378F50 /* WSFileManager.h */,
+				2466DA0220CFC89500378F50 /* WSFileManager.m */,
+				2466DA0C20CFCB6A00378F50 /* WSNetWorkManager.h */,
+				2466DA0D20CFCB6A00378F50 /* WSNetWorkManager.m */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		2466D9FC20CFC65B00378F50 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				247CDA7320BFFE7A0055DE5C /* ViewController.h */,
+				247CDA7420BFFE7A0055DE5C /* ViewController.m */,
+				247CDA8420C0000D0055DE5C /* WSPgyerConfigVC.h */,
+				247CDA8520C0000D0055DE5C /* WSPgyerConfigVC.m */,
+				247CDA8A20C002330055DE5C /* WSAppConfigVC.h */,
+				247CDA8B20C002330055DE5C /* WSAppConfigVC.m */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		2466D9FD20CFC66300378F50 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				247CDA8D20C002770055DE5C /* WSAppConfigModel.h */,
+				247CDA8E20C002770055DE5C /* WSAppConfigModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2466DA0420CFC95D00378F50 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				2466DA0920CFC98D00378F50 /* NSDate+DateString.h */,
+				2466DA0A20CFC98D00378F50 /* NSDate+DateString.m */,
+				2466DA0620CFC96D00378F50 /* NSDate+Utilities.h */,
+				2466DA0720CFC96D00378F50 /* NSDate+Utilities.m */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
 		247CDA6420BFFE7A0055DE5C = {
 			isa = PBXGroup;
 			children = (
@@ -123,20 +187,15 @@
 			children = (
 				247CDA7020BFFE7A0055DE5C /* AppDelegate.h */,
 				247CDA7120BFFE7A0055DE5C /* AppDelegate.m */,
-				247CDA7320BFFE7A0055DE5C /* ViewController.h */,
-				247CDA7420BFFE7A0055DE5C /* ViewController.m */,
-				247CDA8420C0000D0055DE5C /* WSPgyerConfigVC.h */,
-				247CDA8520C0000D0055DE5C /* WSPgyerConfigVC.m */,
-				247CDA8A20C002330055DE5C /* WSAppConfigVC.h */,
-				247CDA8B20C002330055DE5C /* WSAppConfigVC.m */,
-				247CDA8D20C002770055DE5C /* WSAppConfigModel.h */,
-				247CDA8E20C002770055DE5C /* WSAppConfigModel.m */,
-				247CDA8720C000D10055DE5C /* WSConfigManager.h */,
-				247CDA8820C000D10055DE5C /* WSConfigManager.m */,
+				2466D9FC20CFC65B00378F50 /* ViewController */,
+				2466D9FD20CFC66300378F50 /* Model */,
+				2466D9FB20CFC64F00378F50 /* Manager */,
+				2466DA0420CFC95D00378F50 /* Other */,
 				247CDA9020C0043D0055DE5C /* Pod */,
 				247CDA7620BFFE7C0055DE5C /* Assets.xcassets */,
 				247CDA7820BFFE7C0055DE5C /* Main.storyboard */,
 				247CDA7B20BFFE7C0055DE5C /* Info.plist */,
+				241543F0212A690D008390CD /* buildinfo.plist */,
 				247CDA7C20BFFE7C0055DE5C /* main.m */,
 				247CDA7E20BFFE7C0055DE5C /* AutoUploadTools.entitlements */,
 			);
@@ -232,6 +291,11 @@
 				TargetAttributes = {
 					247CDA6C20BFFE7A0055DE5C = {
 						CreatedOnToolsVersion = 9.3.1;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -261,6 +325,7 @@
 				247CDA7720BFFE7C0055DE5C /* Assets.xcassets in Resources */,
 				247CDA7A20BFFE7C0055DE5C /* Main.storyboard in Resources */,
 				247CDABF20C0043E0055DE5C /* Info.plist in Resources */,
+				241543F1212A690D008390CD /* buildinfo.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,11 +353,15 @@
 				247CDAC120C0043E0055DE5C /* AFURLResponseSerialization.m in Sources */,
 				247CDAB920C0043E0055DE5C /* NSObject+MJCoding.m in Sources */,
 				247CDA8920C000D10055DE5C /* WSConfigManager.m in Sources */,
+				2466DA0020CFC67700378F50 /* WSBuildShellFileManager.m in Sources */,
 				247CDA7520BFFE7A0055DE5C /* ViewController.m in Sources */,
 				247CDA7D20BFFE7C0055DE5C /* main.m in Sources */,
 				247CDA7220BFFE7A0055DE5C /* AppDelegate.m in Sources */,
 				247CDABE20C0043E0055DE5C /* MJPropertyKey.m in Sources */,
 				247CDAC520C0043E0055DE5C /* AFNetworkReachabilityManager.m in Sources */,
+				2466DA0B20CFC98D00378F50 /* NSDate+DateString.m in Sources */,
+				2466DA0320CFC89500378F50 /* WSFileManager.m in Sources */,
+				2466DA0E20CFCB6A00378F50 /* WSNetWorkManager.m in Sources */,
 				247CDAC020C0043E0055DE5C /* MJFoundation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -424,7 +493,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = AutoUploadTools/AutoUploadTools.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -444,7 +512,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = AutoUploadTools/AutoUploadTools.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;

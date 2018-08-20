@@ -8,9 +8,6 @@
 
 #import "WSAppConfigModel.h"
 
-
-
-
 @implementation WSAppConfigModel
 
 @end
