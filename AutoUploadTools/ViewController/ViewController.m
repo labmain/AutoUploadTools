@@ -19,6 +19,7 @@
 @property(nonatomic,strong)NSDateFormatter* dateFormatter;
 @property (weak) IBOutlet NSProgressIndicator *uploadProgress;
 @property (weak) IBOutlet NSTextField *teamTextField;
+@property (weak) IBOutlet NSButton *dingCheckBtn;
 
 @property (nonatomic, assign) BOOL isCompiling;
 @property (nonatomic, assign) BOOL isUploading;
@@ -114,17 +115,19 @@
                                                uKey:ukey
                                             api_key:api_k
                                            progress:^(NSProgress *progress) {
-                                               double currentProgress = progress.fractionCompleted;
+                                               double currentProgress = progress.fractionCompleted * 100.0;
                                                model.uploadProgress = currentProgress;
-                                               dispatch_async(dispatch_get_main_queue(), ^{
-                                                   weakSelf.uploadProgress.doubleValue = currentProgress;
-                                               });
-                                           } success:^(NSDictionary *result){
+                                               weakSelf.uploadProgress.doubleValue = currentProgress;
+                                               NSLog(@"上传进度%lf",currentProgress);
+                                           } success:^(WSNetPgyerModel *pgyerModel){
                                                model.uploadState = @"上传成功";
                                                NSString *logStr = [NSString stringWithFormat:@"%@项目ipa包上传完成",model.appName];
                                                [weakSelf addLog:logStr];
-                                               NSString *resultString = [result mj_JSONString];
+                                               NSString *resultString = [pgyerModel mj_JSONString];
                                                [weakSelf writeLog:resultString withPath:model.historyLogPath];
+                                               if (weakSelf.dingCheckBtn.state == NSControlStateValueOn) {
+                                                   [weakSelf sendToDingDingWithPgyerModel:pgyerModel];
+                                               }
                                            } failure:^(NSError *error) {
                                                model.uploadState = @"上传失败";
                                                NSString *logStr = [NSString stringWithFormat:@"上传%@项目ipa包失败",model.appName];
@@ -135,11 +138,19 @@
     });
 }
 
-
-- (void)setRepresentedObject:(id)representedObject {
-    [super setRepresentedObject:representedObject];
-
-    // Update the view, if already loaded.
+#pragma mark -
+- (void)sendToDingDingWithPgyerModel:(WSNetPgyerModel *)pgyerModel
+{
+    WSDingModel *dingModel = [WSConfigManager sharedConfigManager].dingConfig;
+    NSString *downUrl = [pgyerModel getDownUrl];
+    NSString *sizeStr = [NSByteCountFormatter stringFromByteCount:pgyerModel.buildFileSize.longLongValue countStyle:NSByteCountFormatterCountStyleFile];
+    dingModel.message = [NSString stringWithFormat:@"打包完成！\n下载地址：%@\n项目：%@\n版本：%@\nBulid：%@\n大小：%@\n上传时间：%@",downUrl,pgyerModel.buildName,pgyerModel.buildVersion,pgyerModel.buildVersionNo,sizeStr,pgyerModel.buildCreated];
+    if (dingModel.dingUrl.length > 0) {
+        if (dingModel.message.length == 0) {
+            dingModel.message = @"打包完成！";
+        }
+        [WSNetWorkManager sendMessageToDingDingWithMassage:dingModel.message at:dingModel.phoneArray dingUrl:dingModel.dingUrl finish:nil];
+    }
 }
 #pragma mark - Log
 - (void)writeLog:(NSString *)string withPath:(NSString *)path{
@@ -164,4 +175,9 @@
     return _dateFormatter;
 }
 
+- (void)setRepresentedObject:(id)representedObject {
+    [super setRepresentedObject:representedObject];
+    
+    // Update the view, if already loaded.
+}
 @end

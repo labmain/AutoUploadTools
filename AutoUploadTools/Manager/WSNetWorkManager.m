@@ -13,7 +13,10 @@
 NSString *WSPgyerUploadIPAURLPath = @"https://www.pgyer.com/apiv2/app/upload";
 
 @implementation WSNetPgyerModel
-
+- (NSString *)getDownUrl
+{
+    return [NSString stringWithFormat:@"https://www.pgyer.com/%@",self.buildShortcutUrl];
+}
 @end
 
 @interface WSNetWorkManager ()
@@ -48,7 +51,7 @@ static WSNetWorkManager *staticNetWorkManager;
                              uKey:(NSString *)uKey
                           api_key:(NSString *)api_key
                          progress:(void (^)(NSProgress * progress))cuploadProgress
-                          success:(void (^)(NSDictionary *result))success
+                          success:(void (^)(WSNetPgyerModel *pgyerModel))success
                           failure:(void (^)(NSError *error))failure{
     NSDictionary *pare = @{@"uKey":uKey,
                            @"_api_key":api_key,
@@ -75,7 +78,8 @@ static WSNetWorkManager *staticNetWorkManager;
         dispatch_async(dispatch_get_main_queue(), ^{
             NSInteger code = [[responseObject objectForKey:@"code"] integerValue];
             if (code == 0) {
-                success(responseObject);
+                WSNetPgyerModel *model = [WSNetPgyerModel mj_objectWithKeyValues:[responseObject objectForKey:@"data"]];
+                success(model);
             }else {
                 NSString *errorString = [responseObject mj_JSONString];
                 if (errorString == nil) {
@@ -91,8 +95,10 @@ static WSNetWorkManager *staticNetWorkManager;
         });
     }];
 }
-+ (void)sendMessageToDingDingWithParams:(id)params
-                                 finish:(void(^)(id Data,NSError *error))finishBlock
++ (void)sendMessageToDingDingWithMassage:(NSString *)message
+                                      at:(NSArray<NSString *> *)atArray
+                                 dingUrl:(NSString *)dingUrl
+                                  finish:(void(^)(id Data,NSError *error))finishBlock
 {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/plain", @"text/javascript", @"text/json", @"text/html", nil];
@@ -101,7 +107,15 @@ static WSNetWorkManager *staticNetWorkManager;
     manager.requestSerializer =  [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
     
-    [manager POST:@"https://oapi.dingtalk.com/robot/send?access_token=bab5c7a63fb4882f0e53f4d51cb59e75e476b2e78553b071201a3c88d4b7ebd6"
+    NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+                                   @"text",@"msgtype",
+                                   @{@"content":message},@"text"
+                                   ,nil];
+    if (atArray.count > 0) {
+        NSDictionary *atMobiles = @{@"atMobiles":atArray,@"isAtAll":@(false)};
+        [params setObject:atMobiles forKey:@"at"];
+    }
+    [manager POST:dingUrl
        parameters:params
          progress:nil
           success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

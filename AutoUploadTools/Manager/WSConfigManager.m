@@ -12,9 +12,12 @@
 
 static NSString *WSUserDataKey = @"WSUserDataKey";
 static NSString *WSPgyerModelKey = @"WSPgyerModelKey";
+static NSString *WSDingModelKey = @"WSDingModelKey";
 
 static WSConfigManager *staticConfigManager;
 @implementation WSPgyerModel
+@end
+@implementation WSDingModel
 @end
 @implementation WSConfigManager
 + (instancetype)sharedConfigManager {
@@ -37,6 +40,11 @@ static WSConfigManager *staticConfigManager;
     if (self.pgyerConfig == nil) {
         self.pgyerConfig = [[WSPgyerModel alloc] init];
     }
+    NSDictionary *ding =  [[NSUserDefaults standardUserDefaults] objectForKey:WSDingModelKey];
+    self.dingConfig = [WSDingModel mj_objectWithKeyValues:ding];
+    if (self.dingConfig == nil) {
+        self.dingConfig = [[WSDingModel alloc] init];
+    }
 }
 
 - (void)saveUserData {
@@ -45,6 +53,9 @@ static WSConfigManager *staticConfigManager;
     
     NSDictionary *pgyer = [[self.pgyerConfig mj_keyValues] copy];
     [[NSUserDefaults standardUserDefaults] setObject:pgyer forKey:WSPgyerModelKey];
+    
+    NSDictionary *ding = [[self.dingConfig mj_keyValues] copy];
+    [[NSUserDefaults standardUserDefaults] setObject:ding forKey:WSDingModelKey];
 }
 
 
