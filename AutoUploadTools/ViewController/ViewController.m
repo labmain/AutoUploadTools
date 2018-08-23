@@ -57,7 +57,9 @@
     } else {
         self.appName.stringValue = @"项目：未配置";
     }
-    self.teamTextField.stringValue = [WSConfigManager sharedConfigManager].appConfig.teamID;
+    if ([WSConfigManager sharedConfigManager].appConfig.teamID.length > 0) {
+        self.teamTextField.stringValue = [WSConfigManager sharedConfigManager].appConfig.teamID;
+    }
 }
 - (void)appConfigNotification
 {
