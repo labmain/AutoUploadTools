@@ -13,6 +13,7 @@
 #import "WSNetWorkManager.h"
 #import "WSFileManager.h"
 #import "MJExtension.h"
+#import "WSAppConfigVC.h"
 
 @interface ViewController ()
 @property (unsafe_unretained) IBOutlet NSTextView *logTextView;
@@ -20,6 +21,8 @@
 @property (weak) IBOutlet NSProgressIndicator *uploadProgress;
 @property (weak) IBOutlet NSTextField *teamTextField;
 @property (weak) IBOutlet NSButton *dingCheckBtn;
+@property (weak) IBOutlet NSTextField *appName;
+@property (unsafe_unretained) IBOutlet NSTextView *textView;
 
 @property (nonatomic, assign) BOOL isCompiling;
 @property (nonatomic, assign) BOOL isUploading;
@@ -30,26 +33,50 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
+- (void)viewWillAppear
+{
+    [super viewWillAppear];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     //注册通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appConfigNotification) name:@"AppConfigNotification" object:nil];
-    self.teamTextField.stringValue = [WSConfigManager sharedConfigManager].appConfig.teamID;
+    [self setAppInfo];
 }
-
+- (IBAction)appConfigBtnDidClick:(NSButton *)sender {
+//       EHPracticeWordDetailVC *VC = [[UIStoryboard storyboardWithName:@"Practice" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"EHPracticeWordDetailVC"];
+    WSAppConfigVC *vc = [[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"WSAppConfigVC"];
+    [self presentViewControllerAsSheet:vc];
+    
+}
+    
 - (void)setAppInfo
 {
-    // 项目信息
+    if ([WSConfigManager sharedConfigManager].appConfig.appName.length > 0) {
+        self.appName.stringValue = [NSString stringWithFormat:@"项目：%@",[WSConfigManager sharedConfigManager].appConfig.appName];
+    } else {
+        self.appName.stringValue = @"项目：未配置";
+    }
+    self.teamTextField.stringValue = [WSConfigManager sharedConfigManager].appConfig.teamID;
 }
 - (void)appConfigNotification
 {
     [self setAppInfo];
 }
-// 打包
+- (IBAction)openLastBuildDidClick:(id)sender {
+    WSAppConfigModel *model = [WSConfigManager sharedConfigManager].appConfig;
+    NSString *lastAppPath = [[WSFileManager sharedFileManager] getLatestIPAFinderPathFromWithConfigurationModel:model];
+    if (lastAppPath.length > 0) {
+        NSURL *fileURL = [NSURL fileURLWithPath:lastAppPath];
+        [[NSWorkspace sharedWorkspace] openURL:fileURL];
+    }
+    
+}
+    // 打包
 - (IBAction)didClickArchiveButton:(id)sender {
     [self createIPAFileComplete:nil];
 }
+
 // 上传
 - (IBAction)didClickUploadButton:(id)sender {
      [self uploadToPgyer];
@@ -67,8 +94,6 @@
         [[WSConfigManager sharedConfigManager] saveUserData];
     }
 }
-
-
 #pragma mark - 打包
 - (void)createIPAFileComplete:(void(^)(void))complete {
     if (self.isCompiling == YES) {
@@ -79,13 +104,24 @@
     self.isCompiling = YES;
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         WSAppConfigModel *model = [WSConfigManager sharedConfigManager].appConfig;
-        NSString *logStr = [NSString stringWithFormat:@"开始编译%@项目",model.appName];
+        NSString *logStr = [NSString stringWithFormat:@"正在编译%@项目",model.appName];
         [self addLog:logStr];
         NSString *filePath = [WSBuildShellFileManager writeShellFileWithConfigurationModel:model];
         system(filePath.UTF8String);
-        logStr = [NSString stringWithFormat:@"完成%@项目编译生成ipa包",model.appName];
-        [self addLog:logStr];
         dispatch_async(dispatch_get_main_queue(), ^{
+            NSString *finishStr = @"";
+            if ([[NSFileManager defaultManager] fileExistsAtPath:model.lastIpaPath]) {
+                finishStr = [NSString stringWithFormat:@"完成%@项目编译生成ipa包",model.appName];
+            } else {
+                finishStr = @"打包失败！";
+            }
+            NSAlert *alert = [[NSAlert alloc] init];
+            [alert addButtonWithTitle:@"确认"];
+            alert.messageText = @"警告";
+            alert.informativeText = [NSString stringWithFormat:@"%@项目，打包失败！",model.appName];
+            alert.alertStyle = NSAlertStyleWarning;
+            [alert runModal];
+            [self addLog:finishStr];
             self.isCompiling = NO;
         });
         if (complete) {
@@ -153,6 +189,13 @@
     }
 }
 #pragma mark - Log
+- (void)addSystemLog:(NSString *)message
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSAttributedString *attr = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n",message]];
+        [[self.textView textStorage] appendAttributedString:attr];
+    });
+}
 - (void)writeLog:(NSString *)string withPath:(NSString *)path{
     NSString *logString = [[self.dateFormatter stringFromDate:[NSDate date]] stringByAppendingString:[NSString stringWithFormat:@":\n%@",string]];
     [[WSFileManager sharedFileManager] wirteLogToFileWith:logString withName:[self.dateFormatter stringFromDate:[NSDate date]] withPath:path];

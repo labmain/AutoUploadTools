@@ -19,11 +19,9 @@ typedef NS_ENUM(NSUInteger, WSXcodeBuildConfiguration) {
 @interface WSAppConfigModel : NSObject
 
 @property(nonatomic,copy) NSString *projectPath; /**< 项目路径 */
-
-@property(nonatomic,copy) NSString *temPath;
-
 @property(nonatomic,copy) NSString *ipaPath; /**< ipa导出路径 */
 
+@property (nonatomic, copy) NSString *lastIpaPath; /**< 上一次打包的位置，判断打包是否成功 */
 @property (nonatomic, readonly, copy) NSString *historyLogPath;
 
 @property(nonatomic,copy) NSString *schemes;

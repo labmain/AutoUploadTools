@@ -39,9 +39,10 @@
     
     NSString *ipaFilePath = [NSString stringWithFormat:@"%@/%@",ipaPath,dateString];
     
-    if (![[NSFileManager defaultManager] fileExistsAtPath:ipaFilePath]) { // 打包路径
-        [[NSFileManager defaultManager] createDirectoryAtPath:ipaFilePath withIntermediateDirectories:NO attributes:nil error:nil];
-    }
+    configurationModel.lastIpaPath = [NSString stringWithFormat:@"%@/%@.ipa",ipaFilePath,configurationModel.appName];
+//    if (![[NSFileManager defaultManager] fileExistsAtPath:ipaFilePath]) { // 打包路径
+//        [[NSFileManager defaultManager] createDirectoryAtPath:ipaFilePath withIntermediateDirectories:NO attributes:nil error:nil];
+//    }
     NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"buildinfo.plist" ofType:nil]; // exportOptionsPlist文件所在目录，可判断development, ad-hoc等（method 包含四种： app-store, ad-hoc, enterprise, development）
     if (configurationModel.teamID.length > 0) { // 写入 teamID
         NSMutableDictionary *plistData = [[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];

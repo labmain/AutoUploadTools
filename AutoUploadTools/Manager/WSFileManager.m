@@ -36,6 +36,12 @@ static WSFileManager *staticWSFileManager;
     NSString *filePath = [self getLatestIPAFilePath:ipaArray];
     return filePath;
 }
+- (NSString *)getLatestIPAFinderPathFromWithConfigurationModel:(WSAppConfigModel *)model {
+    NSArray *ipaArray =  [[NSFileManager defaultManager] contentsOfDirectoryAtPath:model.ipaPath error:nil];
+    NSString *filePath = [self getLatestIPAFilePath:ipaArray];
+    filePath = [model.ipaPath stringByAppendingString:[NSString stringWithFormat:@"/%@",filePath]];
+    return filePath;
+}
 
 - (void)getLatestIPAFileInfoWithConfigurationModel:(WSAppConfigModel *)model {
     model.ipaName = [[NSFileManager defaultManager] displayNameAtPath:[self getLatestIPAFilePathFromWithConfigurationModel:model]];
